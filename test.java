@@ -1,3 +1,9 @@
+import java.util.*;
+import java.util.Arrays;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
+
 public class Main {
     // classes and objects
     int x = 5;static void myMethod() {
@@ -7,6 +13,7 @@ public class Main {
         myObj2.x =  23;
         System.out.println(myObj2.x);
     }
+
 
 
     public static void main(String[] args) {
@@ -32,6 +39,27 @@ public class Main {
         Hearts myCard = new Hearts();
         myCard.take();
         myCard.pass();
+
+        // Try and Catch
+        exceptions.trycatch();
+
+        collections.maps();
+
+        // java 8
+        java8.optional();
+        java8.lambda_expressions();
+        java8.method_references();
+        java8.datetime();
+        java8.encode_decode();
+        java8.array_sorting();
+        MyClass x = new MyClass();
+        x.normal_method();
+        new_interface.static_method();
+        test.cubing(3);
+
+
+
+
 
 
 
@@ -112,4 +140,153 @@ class Hearts implements Cards {
 
 // to import packages, use import and then the package name at the top
 // to create your own package you can use "package name;"  at the start of the code
+
+
+// Try and catch method for Exception handling
+
+class exceptions {
+    public static void trycatch(){
+        try {
+            int[] numbs = {1,2,3,4};
+            System.out.println(numbs[5]);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        // Will always execute finally statement after try and catch
+        finally {
+            System.out.println("Finished");
+        }
+    }
+}
+
+
+// Collections and maps
+// Creates a dictionary like object which will have a key and a value which when you look up the key you can
+// get the associated value
+
+class collections {
+    public static void maps(){
+        Map<String, Integer> hm
+                = new HashMap<String, Integer>();
+
+        hm.put("Bob", 32);
+        hm.put("Betty", 24);
+
+        System.out.println(hm.get("Bob"));
+    }
+}
+
+// Java 8 features: Date time API, Optional class, Lambda expressions, Method reference, Base 64 encode and decode,
+// Parallel array sorting, static methods in interface, Functional interfaces, Default methods,
+// Stream API,  StringJoiner, Nashorn
+
+class java8 {
+    static void datetime(){
+        // current datetime
+        LocalDateTime current = LocalDateTime.now();
+        System.out.println("current datetime: "+ current);
+        // formatting the datetime
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        String formatedDateTime = current.format(format);
+
+        System.out.println("Datetime in specified format: "+ formatedDateTime);
+    }
+    // An optional class is an object which may or may not contain a value and allows you to check more easily
+    // if there is a value present without getting exceptions
+    static void optional(){
+        // <String> indicates that the object may contain a string (if it wasn't null)
+        String[] words = new String[10];
+        Optional<String> checkNull = Optional.ofNullable(words[5]);
+
+        if (checkNull.isPresent()) {
+            String word = words[5].toUpperCase();
+            System.out.print(word);
+        }
+        else
+            System.out.println("word is null");
+    }
+
+    static void lambda_expressions(){
+        // given certain parameters applies a block of code (parameter1, parameter2) -> {expression}
+        // can also use the keyword Consumer to store a lambda function within a variable
+        ArrayList<Integer> x = new ArrayList<>();
+        x.add(5);
+        x.add(9);
+        x.add(8);
+        x.add(1);
+        Consumer<Integer> stored_lambda = (n) -> {System.out.println(n);};
+        x.forEach(stored_lambda);
+    }
+
+    // For method reference, it can be used as a shorthand way of writing a lambda method call e.g for the last
+    // method
+    static void method_references(){
+        ArrayList<Integer> x = new ArrayList<>();
+        x.add(5);
+        x.add(9);
+        x.add(8);
+        x.add(1);
+        x.forEach(System.out::println);
+    }
+
+    // Base 64 encode and decode
+    // encodes and decodes a string in the form of characters in A-Za-z0-9+/
+    static void encode_decode(){
+        String sample = "This is a sample string";
+
+        String encoded_sample = Base64.getEncoder().encodeToString(sample.getBytes());
+        byte[] actual_bytes = Base64.getDecoder().decode(encoded_sample);
+        String decoded_sample = new String(actual_bytes);
+        System.out.println("Sample encoded: " + encoded_sample);
+        System.out.println("Sample decoded: " + decoded_sample);
+    }
+
+    // Parallel array sorting
+    //
+    static void array_sorting(){
+        int[] numbers = {4,2,67,1,6,8,43,14,76,25};
+        System.out.println("Unsorted numbers: " + Arrays.toString(numbers));
+
+        Arrays.parallelSort(numbers);
+        System.out.println("Sorted number: " + Arrays.toString(numbers));
+    }
+}
+
+// Static methods in interface
+// Static methods in an interface have a body, because of this they can be called without creating
+// an instance unlike a regular method within an interface
+interface new_interface{
+    static void static_method(){
+        System.out.println("This is a static method");
+    }
+
+    void normal_method();
+}
+
+class MyClass implements new_interface {
+    public void normal_method() {
+        System.out.println("This is the normal implementation");
+    }
+
+}
+
+// Functional interface
+// A functional interface can only have one abstract method, however it can have as many static methods
+// as wanted. It can also call lambda expressions as the instance of functional interface
+
+interface cube{
+    int calc(int x);
+}
+
+class test{
+    public static void cubing(int a){
+        cube s = (int x) -> x * x * x;
+
+        int ans = s.calc(a);
+        System.out.println(ans);
+    }
+}
+
 
