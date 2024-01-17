@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
+import java.util.stream.*;
+import java.util.StringJoiner;
 
 public class Main {
     // classes and objects
@@ -54,14 +56,12 @@ public class Main {
         java8.array_sorting();
         MyClass x = new MyClass();
         x.normal_method();
+        x.default_method();
         new_interface.static_method();
         test.cubing(3);
 
-
-
-
-
-
+        stream_api.example();
+        stringjoin.join_strings();
 
     }
 
@@ -179,7 +179,7 @@ class collections {
 
 // Java 8 features: Date time API, Optional class, Lambda expressions, Method reference, Base 64 encode and decode,
 // Parallel array sorting, static methods in interface, Functional interfaces, Default methods,
-// Stream API,  StringJoiner, Nashorn
+// Stream API,  StringJoiner
 
 class java8 {
     static void datetime(){
@@ -262,6 +262,10 @@ interface new_interface{
         System.out.println("This is a static method");
     }
 
+    // Default method
+    default void default_method(){
+        System.out.println("This is a default method");
+    }
     void normal_method();
 }
 
@@ -289,4 +293,28 @@ class test{
     }
 }
 
+// A stream allows multiple operations or methods to be applied to an input without having to store any
+// of the intermediate data, before a final terminal operation is applied and outputs a result
+// examples of terminal operators, collect, forEach, reduce
+class stream_api{
+    public static void example(){
+        System.out.println("Example of stream API:");
+        List<Integer> number = Arrays.asList(2,3,4,5);
+        number.stream().map(x->x*x).forEach(System.out::println);
+        List<Integer> num_list = number.stream().filter(x->x%3 == 0).collect(Collectors.toList());
+        System.out.println(num_list);
+    }
+}
 
+// Stringjoiner allows you to join multiple strings together easily with a fixed delimiter, prefix and
+// suffix
+
+class stringjoin{
+    public static void join_strings(){
+        StringJoiner sj = new StringJoiner("|", "/", "/");
+        sj.add("abc");
+        sj.add("def");
+        sj.add("ghi");
+        System.out.println(sj);
+    }
+}
